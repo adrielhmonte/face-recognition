@@ -7,7 +7,7 @@ mp_face_mesh = mp.solutions.face_mesh
 drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
 cam = cv.VideoCapture(0)
 
-with mp_face_mesh.FaceMesh(max_num_faces=1, refine_landmarks=True, min_detection_confidence=0.5,
+with mp_face_mesh.FaceMesh(max_num_faces=2, refine_landmarks=True, min_detection_confidence=0.5,
                            min_tracking_confidence=0.5) as face_mesh:
 
     while cam.isOpened():
@@ -33,6 +33,12 @@ with mp_face_mesh.FaceMesh(max_num_faces=1, refine_landmarks=True, min_detection
                     connections=mp_face_mesh.FACEMESH_IRISES,
                     landmark_drawing_spec=None,
                     connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_iris_connections_style()
+                )
+                mp_drawing.draw_landmarks(image=frame,
+                                          landmark_list=face_landmarks,
+                                          connections=mp_face_mesh.FACEMESH_CONTOURS,
+                                          landmark_drawing_spec=None,
+                                          connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_contours_style()
                 )
 
         cv.imshow('mediapipe face mesh', cv.flip(frame, 1))
